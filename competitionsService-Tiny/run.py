@@ -1,0 +1,5 @@
+import uvicorn
+from competitions_app.config import PORT
+
+if __name__ == "__main__":
+    uvicorn.run("competitions_app.main:app", host="0.0.0.0", port=PORT, reload=True)
