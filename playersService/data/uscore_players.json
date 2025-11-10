@@ -1,0 +1,124 @@
+{
+  "players": {
+    "2": {
+      "name": "Carlos Oliveira",
+      "email": "carlos.oliveira@example.com",
+      "age": 28,
+      "position": "Goleiro",
+      "team": "Team B",
+      "active": true,
+      "created_at": "2025-10-21T00:32:47.129848",
+      "updated_at": "2025-10-21T00:32:47.129848"
+    },
+    "3": {
+      "name": "Pedro Santos",
+      "email": "pedro.santos@example.com",
+      "age": 24,
+      "position": "Zagueiro",
+      "team": "Team A",
+      "active": true,
+      "created_at": "2025-10-21T00:32:47.152416",
+      "updated_at": "2025-10-21T00:32:47.152416"
+    },
+    "4": {
+      "name": "Lucas Ferreira",
+      "email": "lucas.ferreira@example.com",
+      "age": 30,
+      "position": "Lateral",
+      "team": "Team C",
+      "active": false,
+      "created_at": "2025-10-21T00:32:47.172054",
+      "updated_at": "2025-10-21T00:32:47.172054"
+    },
+    "6": {
+      "name": "Carlos Oliveira",
+      "email": "carlos.oliveira@example.com",
+      "age": 28,
+      "position": "Goleiro",
+      "team": "Team B",
+      "active": true,
+      "created_at": "2025-10-21T00:33:25.317550",
+      "updated_at": "2025-10-21T00:33:25.317550"
+    },
+    "7": {
+      "name": "Pedro Santos",
+      "email": "pedro.santos@example.com",
+      "age": 24,
+      "position": "Zagueiro",
+      "team": "Team A",
+      "active": true,
+      "created_at": "2025-10-21T00:33:25.336213",
+      "updated_at": "2025-10-21T00:33:25.336213"
+    },
+    "8": {
+      "name": "Lucas Ferreira",
+      "email": "lucas.ferreira@example.com",
+      "age": 30,
+      "position": "Lateral",
+      "team": "Team C",
+      "active": false,
+      "created_at": "2025-10-21T00:33:25.351944",
+      "updated_at": "2025-10-21T00:33:25.351944"
+    },
+    "10": {
+      "name": "Carlos Oliveira",
+      "email": "carlos.oliveira@example.com",
+      "age": 28,
+      "position": "Goleiro",
+      "team": "Team B",
+      "active": true,
+      "created_at": "2025-10-21T00:36:55.220498",
+      "updated_at": "2025-10-21T00:36:55.220498"
+    },
+    "11": {
+      "name": "Pedro Santos",
+      "email": "pedro.santos@example.com",
+      "age": 24,
+      "position": "Zagueiro",
+      "team": "Team A",
+      "active": true,
+      "created_at": "2025-10-21T00:36:55.239168",
+      "updated_at": "2025-10-21T00:36:55.239168"
+    },
+    "12": {
+      "name": "Lucas Ferreira",
+      "email": "lucas.ferreira@example.com",
+      "age": 30,
+      "position": "Lateral",
+      "team": "Team C",
+      "active": false,
+      "created_at": "2025-10-21T00:36:55.257283",
+      "updated_at": "2025-10-21T00:36:55.257283"
+    },
+    "14": {
+      "name": "Carlos Oliveira",
+      "email": "carlos.oliveira@example.com",
+      "age": 28,
+      "position": "Goleiro",
+      "team": "Team B",
+      "active": true,
+      "created_at": "2025-10-21T00:37:06.013770",
+      "updated_at": "2025-10-21T00:37:06.013770"
+    },
+    "15": {
+      "name": "Pedro Santos",
+      "email": "pedro.santos@example.com",
+      "age": 24,
+      "position": "Zagueiro",
+      "team": "Team A",
+      "active": true,
+      "created_at": "2025-10-21T00:37:06.031495",
+      "updated_at": "2025-10-21T00:37:06.031495"
+    },
+    "16": {
+      "name": "Lucas Ferreira",
+      "email": "lucas.ferreira@example.com",
+      "age": 30,
+      "position": "Lateral",
+      "team": "Team C",
+      "active": false,
+      "created_at": "2025-10-21T00:37:06.076038",
+      "updated_at": "2025-10-21T00:37:06.076038"
+    }
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-10-20T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "wrk_players_service",
+      "_type": "workspace",
+      "name": "Players Service API",
+      "description": "API de gerenciamento de jogadores",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "name": "Base Environment",
+      "data": {
+        "baseUrl": "http://localhost:8000",
+        "player_id": ""
+      },
+      "parentId": "wrk_players_service"
+    },
+    {
+      "_id": "req_root",
+      "_type": "request",
+      "name": "Root",
+      "method": "GET",
+      "url": "{{ _.baseUrl }}/",
+      "parentId": "fld_health",
+      "headers": []
+    },
+    {
+      "_id": "req_health",
+      "_type": "request",
+      "name": "Health Check",
+      "method": "GET",
+      "url": "{{ _.baseUrl }}/health",
+      "parentId": "fld_health",
+      "headers": []
+    },
+    {
+      "_id": "req_create_player",
+      "_type": "request",
+      "name": "Create Player",
+      "method": "POST",
+      "url": "{{ _.baseUrl }}/api/players/",
+      "parentId": "fld_players",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"João Silva\",\n  \"email\": \"joao.silva@example.com\",\n  \"age\": 25,\n  \"position\": \"Atacante\",\n  \"team\": \"Team A\",\n  \"active\": true\n}"
+      }
+    },
+    {
+      "_id": "req_get_all_players",
+      "_type": "request",
+      "name": "Get All Players",
+      "method": "GET",
+      "url": "{{ _.baseUrl }}/api/players/",
+      "parentId": "fld_players",
+      "headers": [],
+      "parameters": [
+        {
+          "name": "skip",
+          "value": "0"
+        },
+        {
+          "name": "limit",
+          "value": "10"
+        }
+      ]
+    },
+    {
+      "_id": "req_get_player",
+      "_type": "request",
+      "name": "Get Player by ID",
+      "method": "GET",
+      "url": "{{ _.baseUrl }}/api/players/{{ _.player_id }}",
+      "parentId": "fld_players",
+      "headers": []
+    },
+    {
+      "_id": "req_search_players",
+      "_type": "request",
+      "name": "Search Players",
+      "method": "GET",
+      "url": "{{ _.baseUrl }}/api/players/search",
+      "parentId": "fld_players",
+      "headers": [],
+      "parameters": [
+        {
+          "name": "q",
+          "value": "João"
+        }
+      ]
+    },
+    {
+      "_id": "req_update_player",
+      "_type": "request",
+      "name": "Update Player",
+      "method": "PUT",
+      "url": "{{ _.baseUrl }}/api/players/{{ _.player_id }}",
+      "parentId": "fld_players",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"João Silva Atualizado\",\n  \"position\": \"Meio-Campo\",\n  \"age\": 26\n}"
+      }
+    },
+    {
+      "_id": "req_delete_player",
+      "_type": "request",
+      "name": "Delete Player",
+      "method": "DELETE",
+      "url": "{{ _.baseUrl }}/api/players/{{ _.player_id }}",
+      "parentId": "fld_players",
+      "headers": []
+    },
+    {
+      "_id": "fld_health",
+      "_type": "request_group",
+      "name": "Health Check",
+      "parentId": "wrk_players_service"
+    },
+    {
+      "_id": "fld_players",
+      "_type": "request_group",
+      "name": "Players",
+      "parentId": "wrk_players_service"
+    }
+  ]
+}

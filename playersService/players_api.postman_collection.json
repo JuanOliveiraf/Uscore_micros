@@ -1,0 +1,323 @@
+{
+  "info": {
+    "name": "Players Service API",
+    "description": "Collection para o microserviço de gerenciamento de jogadores",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8005",
+      "type": "string"
+    },
+    {
+      "key": "player_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Root",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Players",
+      "item": [
+        {
+          "name": "Create Player",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('player_id', response.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"João Silva\",\n  \"email\": \"joao.silva@example.com\",\n  \"age\": 25,\n  \"position\": \"Atacante\",\n  \"team\": \"Team A\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/players/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", ""]
+            },
+            "description": "Cria um novo jogador no sistema"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Players",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/players/?skip=0&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", ""],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0",
+                  "description": "Número de registros para pular"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Número máximo de registros"
+                }
+              ]
+            },
+            "description": "Lista todos os jogadores com paginação"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Player by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/players/{{player_id}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", "{{player_id}}"]
+            },
+            "description": "Busca um jogador específico pelo ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Search Players",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/players/search?q=João",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "João",
+                  "description": "Termo de busca (nome, email, time ou posição)"
+                }
+              ]
+            },
+            "description": "Busca jogadores por nome, email, time ou posição"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Player",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"João Silva Atualizado\",\n  \"position\": \"Meio-Campo\",\n  \"age\": 26\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/players/{{player_id}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", "{{player_id}}"]
+            },
+            "description": "Atualiza os dados de um jogador"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Player",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/players/{{player_id}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", "{{player_id}}"]
+            },
+            "description": "Remove um jogador do sistema"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Exemplos Adicionais",
+      "item": [
+        {
+          "name": "Create Player - Goleiro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Carlos Oliveira\",\n  \"email\": \"carlos.oliveira@example.com\",\n  \"age\": 28,\n  \"position\": \"Goleiro\",\n  \"team\": \"Team B\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/players/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Player - Zagueiro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Pedro Santos\",\n  \"email\": \"pedro.santos@example.com\",\n  \"age\": 24,\n  \"position\": \"Zagueiro\",\n  \"team\": \"Team A\",\n  \"active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/players/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Player - Inativo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Lucas Ferreira\",\n  \"email\": \"lucas.ferreira@example.com\",\n  \"age\": 30,\n  \"position\": \"Lateral\",\n  \"team\": \"Team C\",\n  \"active\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/players/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Player - Deactivate",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"active\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/players/{{player_id}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", "{{player_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search by Team",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/players/search?q=Team A",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "Team A"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search by Position",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/players/search?q=Atacante",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "players", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "Atacante"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
