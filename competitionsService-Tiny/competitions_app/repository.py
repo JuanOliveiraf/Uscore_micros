@@ -26,7 +26,7 @@ class CompetitionsRepository:
     def remove(self, comp_id: str) -> bool:
         return bool(self.table.remove(Query().id == comp_id))
 
-    def list(self, q: Optional[str], sport: Optional[str], limit: int, offset: int):
+    def list(self, q: Optional[str] = None, sport: Optional[str] = None, limit: int = 100, offset: int = 0):
         items = self.table.all()
 
         def matches(it: Dict[str, Any]):
@@ -37,5 +37,5 @@ class CompetitionsRepository:
             return True
 
         items = [it for it in items if matches(it)]
-        total = len(items)
-        return {"items": items[offset:offset + limit], "total": total}
+        # Keep the route contract simple: return just the slice (router declares response_model as list)
+        return items[offset:offset + limit]

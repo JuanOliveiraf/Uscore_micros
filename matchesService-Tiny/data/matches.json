@@ -1,1 +1,1 @@
-{"matches": {}}
+{"matches": {"1": {"competitionId": "COMP_653EEAB0", "homeTeamId": "TEAM_532DD97E", "awayTeamId": "TEAM_3D63A9B4", "sport": "futebol", "scheduledAt": "2025-11-16 04:00:43.658000+00:00", "status": "SCHEDULED", "venue": {"name": "ginasio 1", "city": "sp"}, "score": {"home": 0, "away": 0}, "id": "MATCH_BB2CE919", "createdAt": "2025-11-16T04:05:45.948657+00:00"}}}

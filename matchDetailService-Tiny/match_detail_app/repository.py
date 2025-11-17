@@ -1,4 +1,4 @@
-
+from tinydb import TinyDB
 from tinydb import Query
 from datetime import datetime
 from typing import Dict, Any, Optional
@@ -23,6 +23,18 @@ class DetailRepository:
         r = lineups_table.search(Query().matchId == mid); return r[0] if r else {"home":[],"away":[]}
     def get_stats(self, mid: str):
         r = stats_table.search(Query().matchId == mid); return r[0] if r else {"home":{"score":0},"away":{"score":0},"players":[]}
+    def set_lineups(self, mid: str, lineups: Dict[str, Any]):
+        q = Query()
+        payload = dict(lineups, matchId=mid)
+        if lineups_table.search(q.matchId == mid): lineups_table.update(self._ser(payload), q.matchId == mid)
+        else: lineups_table.insert(self._ser(payload))
+        return self.get_lineups(mid)
+    def set_stats(self, mid: str, stats: Dict[str, Any]):
+        q = Query()
+        payload = dict(stats, matchId=mid)
+        if stats_table.search(q.matchId == mid): stats_table.update(self._ser(payload), q.matchId == mid)
+        else: stats_table.insert(self._ser(payload))
+        return self.get_stats(mid)
     async def _safe(self, url):
         try:
             async with httpx.AsyncClient(timeout=REQUEST_TIMEOUT) as c:
@@ -37,3 +49,21 @@ class DetailRepository:
         comp = await self._safe(f"{COMPETITIONS_BASE_URL}/api/v1/competitions/{meta.get('competitionId')}") if COMPETITIONS_BASE_URL and meta.get("competitionId") else None
         return {"match":meta,"homeTeam":home,"awayTeam":away,"competition":comp,
                 "events":self.list_events(mid),"lineups":self.get_lineups(mid),"stats":self.get_stats(mid)}
+
+
+# Compatibility repository expected by routes.py
+class MatchDetailRepository(DetailRepository):
+    """Repository used by routes to retrieve locally stored extra details.
+
+    The get() method intentionally avoids external HTTP calls and only composes
+    data persisted in TinyDB (meta, events, lineups, stats). This keeps the
+    HTTP aggregation in routes lightweight and avoids duplicate network calls.
+    """
+
+    def get(self, match_id: str) -> Dict[str, Any]:
+        return {
+            "meta": self.get_meta(match_id),
+            "events": self.list_events(match_id),
+            "lineups": self.get_lineups(match_id),
+            "stats": self.get_stats(match_id),
+        }

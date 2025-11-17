@@ -43,12 +43,19 @@ class MatchesRepository:
     def remove(self, id):
         return self.delete_by_id(id)
 
-    def list_matches(self, filters=None, limit=100, offset=0):
+    def list_matches(self, filters=None, limit=100, offset=0, **kwargs):
         """Return a paginated list of matches applying simple filters.
 
-        filters: dict - may contain keys like 'status', 'sport', 'competitionId', 'teamId', 'upcoming'
+        Supports two calling styles:
+        - list_matches(filters={...}, limit=.., offset=..)
+        - list_matches(competitionId=..., teamId=..., status=..., sport=..., upcoming=True, limit=.., offset=..)
+        Route currently invokes: repo.list(competitionId=..., teamId=..., limit=..., offset=...)
         """
-        filters = filters or {}
+        filters = (filters or {}).copy()
+        # Merge direct keyword filters (backward compatibility with current router usage)
+        for key in ["status", "sport", "competitionId", "teamId", "upcoming"]:
+            if key in kwargs and kwargs[key] is not None:
+                filters[key] = kwargs[key]
         all_items = self._table.all()
 
         def _parse_datetime(dt):
@@ -84,5 +91,5 @@ class MatchesRepository:
         total = len(filtered_items)
         return {'items': filtered_items[offset:offset+limit], 'total': total}
 
-    # backward-compatible alias
+    # backward-compatible alias (routes call repo.list(...))
     list = list_matches

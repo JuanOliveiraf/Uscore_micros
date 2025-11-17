@@ -18,5 +18,5 @@ TEAMS_BASE_URL = os.getenv("TEAMS_BASE_URL", "http://localhost:8001")
 COMPETITIONS_BASE_URL = os.getenv("COMPETITIONS_BASE_URL", "http://localhost:8002")
 
 # 🌐 Prefixo base e porta
-API_PREFIX = os.getenv("API_PREFIX", "/api/v1")
+REQUEST_TIMEOUT = float(os.getenv("REQUEST_TIMEOUT", "3.0"))
 PORT = int(os.getenv("PORT", 8003))

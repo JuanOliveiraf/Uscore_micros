@@ -23,7 +23,6 @@ class TeamsRepository:
     def update(self, team_id: str, patch: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         if not self.get(team_id):
             return None
-        # Ensure patch is JSON-serializable (same reason as in insert)
         serializable_patch = json.loads(json.dumps(patch, default=str, ensure_ascii=False))
         self.table.update(serializable_patch, Query().id == team_id)
         return self.get(team_id)
@@ -49,3 +48,8 @@ class TeamsRepository:
         total = len(items)
         items = items[offset: offset + limit]
         return {"items": items, "total": total}
+
+    def find_by_name_and_university(self, name: str, university: str):
+        return self.table.search(
+            (Query().name == name) & (Query().university == university)
+        )
