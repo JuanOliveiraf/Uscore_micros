@@ -1,7 +1,6 @@
-from tinydb import TinyDB
 from tinydb import Query
 from datetime import datetime
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 import json, httpx
 from .database import details_table, events_table, lineups_table, stats_table
 from .config import MATCHES_BASE_URL, TEAMS_BASE_URL, COMPETITIONS_BASE_URL, REQUEST_TIMEOUT
@@ -60,9 +59,9 @@ class MatchDetailRepository(DetailRepository):
     HTTP aggregation in routes lightweight and avoids duplicate network calls.
     """
 
-    def get(self, match_id: str) -> Dict[str, Any]:
+    def get_snapshot(self, match_id: str) -> Dict[str, Any]:
         return {
-            "meta": self.get_meta(match_id),
+            "match": self.get_meta(match_id) or {"id": match_id, "status": "SCHEDULED"},
             "events": self.list_events(match_id),
             "lineups": self.get_lineups(match_id),
             "stats": self.get_stats(match_id),

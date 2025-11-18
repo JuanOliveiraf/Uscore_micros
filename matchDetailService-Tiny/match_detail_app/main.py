@@ -1,8 +1,24 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .config import CORS_ORIGINS, SERVICE_NAME
-from .routes import router
-app = FastAPI(title=SERVICE_NAME)
-app.add_middleware(CORSMiddleware, allow_origins=CORS_ORIGINS, allow_methods=["*"], allow_headers=["*"])
+from contextlib import asynccontextmanager
+
+from .config import settings
+from .routes import router, manager, broadcaster
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+	await broadcaster.start(manager)
+	yield
+	await broadcaster.stop()
+
+
+app = FastAPI(title=settings.service_name, lifespan=lifespan)
+app.add_middleware(
+	CORSMiddleware,
+	allow_origins=settings.cors_origins,
+	allow_methods=["*"],
+	allow_headers=["*"],
+)
 app.include_router(router)

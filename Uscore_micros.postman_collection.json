@@ -1,0 +1,426 @@
+{
+  "info": {
+    "name": "Uscore Micros API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection covering all microservices (teams, competitions, matches, match-detail, players, profile). Use collection variables to point to local/remote hosts and to provide auth tokens."
+  },
+  "variable": [
+    {"key": "matchDetailBase", "value": "http://localhost:8004"},
+    {"key": "matchesBase", "value": "http://localhost:8003"},
+    {"key": "teamsBase", "value": "http://localhost:8001"},
+    {"key": "competitionsBase", "value": "http://localhost:8002"},
+    {"key": "playersBase", "value": "http://localhost:8005"},
+    {"key": "profileBase", "value": "http://localhost:8000"},
+    {"key": "authToken", "value": "CHANGE_ME_JWT"},
+    {"key": "apiKey", "value": "local-dev-key"},
+    {"key": "matchId", "value": "MATCH_DEMO123"},
+    {"key": "teamId", "value": "TEAM_DEMO123"},
+    {"key": "competitionId", "value": "COMP_DEMO123"},
+    {"key": "playerId", "value": "PLAYER_DEMO123"},
+    {"key": "userId", "value": "USER_DEMO123"},
+    {"key": "pageLimit", "value": "20"},
+    {"key": "pageOffset", "value": "0"}
+  ],
+  "item": [
+    {
+      "name": "matchDetailService",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{matchDetailBase}}/",
+              "host": ["{{matchDetailBase}}"],
+              "path": [""]
+            }
+          }
+        },
+        {
+          "name": "Get Match Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{matchDetailBase}}/api/v1/match-details/{{matchId}}",
+              "host": ["{{matchDetailBase}}"],
+              "path": ["api", "v1", "match-details", "{{matchId}}"]
+            }
+          }
+        },
+        {
+          "name": "Legacy Get Match Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{matchDetailBase}}/api/v1/matches/{{matchId}}/details",
+              "host": ["{{matchDetailBase}}"],
+              "path": ["api", "v1", "matches", "{{matchId}}", "details"]
+            }
+          }
+        },
+        {
+          "name": "Upsert Match Meta",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{authToken}}"},
+              {"key": "x-api-key", "value": "{{apiKey}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"{{matchId}}\",\n  \"status\": \"LIVE\",\n  \"minute\": 12\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{matchDetailBase}}/api/v1/match-details/{{matchId}}/meta",
+              "host": ["{{matchDetailBase}}"],
+              "path": ["api", "v1", "match-details", "{{matchId}}", "meta"]
+            }
+          }
+        },
+        {
+          "name": "Add Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{authToken}}"},
+              {"key": "x-api-key", "value": "{{apiKey}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"minute\": 15,\n  \"type\": \"GOAL\",\n  \"teamId\": \"{{teamId}}\",\n  \"playerId\": \"PLAYER_SCORER\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{matchDetailBase}}/api/v1/match-details/{{matchId}}/events",
+              "host": ["{{matchDetailBase}}"],
+              "path": ["api", "v1", "match-details", "{{matchId}}", "events"]
+            }
+          }
+        },
+        {
+          "name": "Replace Lineups",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{authToken}}"},
+              {"key": "x-api-key", "value": "{{apiKey}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"home\": [{ \"playerId\": \"P1\", \"name\": \"Player 1\", \"position\": \"FWD\" }],\n  \"away\": [{ \"playerId\": \"P2\", \"name\": \"Player 2\", \"position\": \"DEF\" }]\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{matchDetailBase}}/api/v1/match-details/{{matchId}}/lineups",
+              "host": ["{{matchDetailBase}}"],
+              "path": ["api", "v1", "match-details", "{{matchId}}", "lineups"]
+            }
+          }
+        },
+        {
+          "name": "Replace Stats",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{authToken}}"},
+              {"key": "x-api-key", "value": "{{apiKey}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"home\": { \"score\": 1 },\n  \"away\": { \"score\": 0 },\n  \"players\": [{ \"playerId\": \"P1\", \"minutes\": 45, \"goals\": 1 }]\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {
+              "raw": "{{matchDetailBase}}/api/v1/match-details/{{matchId}}/stats",
+              "host": ["{{matchDetailBase}}"],
+              "path": ["api", "v1", "match-details", "{{matchId}}", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "matchesService",
+      "item": [
+        {
+          "name": "Health",
+          "request": {"method": "GET", "url": {"raw": "{{matchesBase}}/", "host": ["{{matchesBase}}"], "path": [""]}}
+        },
+        {
+          "name": "Create Match",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"competitionId\": \"{{competitionId}}\",\n  \"homeTeamId\": \"{{teamId}}\",\n  \"awayTeamId\": \"TEAM_AWAY123\",\n  \"sport\": \"futebol\",\n  \"scheduledAt\": \"2025-11-16T16:00:00Z\",\n  \"status\": \"SCHEDULED\",\n  \"venue\": { \"name\": \"Ginásio 1\", \"city\": \"SP\" },\n  \"score\": { \"home\": 0, \"away\": 0 }\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {"raw": "{{matchesBase}}/api/v1/matches", "host": ["{{matchesBase}}"], "path": ["api", "v1", "matches"]}
+          }
+        },
+        {
+          "name": "List Matches",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{matchesBase}}/api/v1/matches?limit={{pageLimit}}&offset={{pageOffset}}&competitionId={{competitionId}}&teamId={{teamId}}",
+              "host": ["{{matchesBase}}"],
+              "path": ["api", "v1", "matches"],
+              "query": [
+                {"key": "competitionId", "value": "{{competitionId}}", "disabled": true},
+                {"key": "teamId", "value": "{{teamId}}", "disabled": true},
+                {"key": "limit", "value": "{{pageLimit}}"},
+                {"key": "offset", "value": "{{pageOffset}}"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Match",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{matchesBase}}/api/v1/matches/{{matchId}}", "host": ["{{matchesBase}}"], "path": ["api", "v1", "matches", "{{matchId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "teamsService",
+      "item": [
+        {"name": "Health", "request": {"method": "GET", "url": {"raw": "{{teamsBase}}/", "host": ["{{teamsBase}}"], "path": [""]}}},
+        {
+          "name": "Create Team",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tech Lions\",\n  \"sport\": \"futebol\",\n  \"university\": \"mackenzie\",\n  \"competitionId\": \"{{competitionId}}\",\n  \"logoUrl\": \"https://example.com/logo.png\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {"raw": "{{teamsBase}}/api/v1/teams", "host": ["{{teamsBase}}"], "path": ["api", "v1", "teams"]}
+          }
+        },
+        {
+          "name": "List Teams",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{teamsBase}}/api/v1/teams?university=mackenzie&sport=futebol&competitionId={{competitionId}}&limit={{pageLimit}}&offset={{pageOffset}}",
+              "host": ["{{teamsBase}}"],
+              "path": ["api", "v1", "teams"],
+              "query": [
+                {"key": "university", "value": "mackenzie", "disabled": true},
+                {"key": "sport", "value": "futebol", "disabled": true},
+                {"key": "competitionId", "value": "{{competitionId}}", "disabled": true},
+                {"key": "limit", "value": "{{pageLimit}}"},
+                {"key": "offset", "value": "{{pageOffset}}"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Team",
+          "request": {"method": "GET", "url": {"raw": "{{teamsBase}}/api/v1/teams/{{teamId}}", "host": ["{{teamsBase}}"], "path": ["api", "v1", "teams", "{{teamId}}"]}}
+        },
+        {
+          "name": "Update Team",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tech Lions Updated\",\n  \"sport\": \"futebol\",\n  \"university\": \"mackenzie\",\n  \"competitionId\": \"{{competitionId}}\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {"raw": "{{teamsBase}}/api/v1/teams/{{teamId}}", "host": ["{{teamsBase}}"], "path": ["api", "v1", "teams", "{{teamId}}"]}
+          }
+        },
+        {"name": "Delete Team", "request": {"method": "DELETE", "url": {"raw": "{{teamsBase}}/api/v1/teams/{{teamId}}", "host": ["{{teamsBase}}"], "path": ["api", "v1", "teams", "{{teamId}}"]}}}
+      ]
+    },
+    {
+      "name": "competitionsService",
+      "item": [
+        {
+          "name": "Create Competition",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"InterU Cup\",\n  \"sport\": \"futebol\",\n  \"season\": \"2025\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {"raw": "{{competitionsBase}}/api/v1/competitions", "host": ["{{competitionsBase}}"], "path": ["api", "v1", "competitions"]}
+          }
+        },
+        {
+          "name": "List Competitions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{competitionsBase}}/api/v1/competitions?sport=futebol",
+              "host": ["{{competitionsBase}}"],
+              "path": ["api", "v1", "competitions"],
+              "query": [{"key": "sport", "value": "futebol", "disabled": true}]
+            }
+          }
+        },
+        {
+          "name": "Get Competition",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{competitionsBase}}/api/v1/competitions/{{competitionId}}", "host": ["{{competitionsBase}}"], "path": ["api", "v1", "competitions", "{{competitionId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "playersService",
+      "item": [
+        {
+          "name": "Create Player",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jordan Doe\",\n  \"position\": \"PG\",\n  \"team\": \"{{teamId}}\",\n  \"number\": 10\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {"raw": "{{playersBase}}/api/v1/players/", "host": ["{{playersBase}}"], "path": ["api", "v1", "players", ""]}
+          }
+        },
+        {
+          "name": "List Players",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{playersBase}}/api/v1/players/?skip={{pageOffset}}&limit={{pageLimit}}",
+              "host": ["{{playersBase}}"],
+              "path": ["api", "v1", "players", ""],
+              "query": [
+                {"key": "skip", "value": "{{pageOffset}}"},
+                {"key": "limit", "value": "{{pageLimit}}"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Players",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{playersBase}}/api/v1/players/search?q=doe",
+              "host": ["{{playersBase}}"],
+              "path": ["api", "v1", "players", "search"],
+              "query": [{"key": "q", "value": "doe"}]
+            }
+          }
+        },
+        {
+          "name": "Get Player",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{playersBase}}/api/v1/players/{{playerId}}", "host": ["{{playersBase}}"], "path": ["api", "v1", "players", "{{playerId}}"]}
+          }
+        },
+        {
+          "name": "Update Player",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jordan Doe\",\n  \"position\": \"SG\",\n  \"team\": \"{{teamId}}\",\n  \"number\": 23\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {"raw": "{{playersBase}}/api/v1/players/{{playerId}}", "host": ["{{playersBase}}"], "path": ["api", "v1", "players", "{{playerId}}"]}
+          }
+        },
+        {
+          "name": "Delete Player",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{playersBase}}/api/v1/players/{{playerId}}", "host": ["{{playersBase}}"], "path": ["api", "v1", "players", "{{playerId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "profileService",
+      "item": [
+        {"name": "Health", "request": {"method": "GET", "url": {"raw": "{{profileBase}}/", "host": ["{{profileBase}}"], "path": [""]}}},
+        {
+          "name": "Create Profile",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{userId}}\",\n  \"name\": \"Jane Doe\",\n  \"favorite_teams\": [\"{{teamId}}\"],\n  \"favorite_competitions\": [\"{{competitionId}}\"]\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {"raw": "{{profileBase}}/api/profiles/", "host": ["{{profileBase}}"], "path": ["api", "profiles", ""]}
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {"method": "GET", "url": {"raw": "{{profileBase}}/api/profiles/{{userId}}", "host": ["{{profileBase}}"], "path": ["api", "profiles", "{{userId}}"]}}
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": \"{{userId}}\",\n  \"name\": \"Jane Doe\",\n  \"favorite_teams\": [\"{{teamId}}\"],\n  \"favorite_competitions\": [\"{{competitionId}}\"]\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {"raw": "{{profileBase}}/api/profiles/{{userId}}", "host": ["{{profileBase}}"], "path": ["api", "profiles", "{{userId}}"]}
+          }
+        },
+        {
+          "name": "List Favorites",
+          "request": {"method": "GET", "url": {"raw": "{{profileBase}}/api/profiles/{{userId}}/favorites", "host": ["{{profileBase}}"], "path": ["api", "profiles", "{{userId}}", "favorites"]}}
+        },
+        {
+          "name": "Add Favorite Team",
+          "request": {
+            "method": "POST",
+            "url": {"raw": "{{profileBase}}/api/profiles/{{userId}}/favorites/teams/{{teamId}}", "host": ["{{profileBase}}"], "path": ["api", "profiles", "{{userId}}", "favorites", "teams", "{{teamId}}"]}
+          }
+        },
+        {
+          "name": "Remove Favorite Team",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{profileBase}}/api/profiles/{{userId}}/favorites/teams/{{teamId}}", "host": ["{{profileBase}}"], "path": ["api", "profiles", "{{userId}}", "favorites", "teams", "{{teamId}}"]}
+          }
+        },
+        {
+          "name": "Add Favorite Competition",
+          "request": {
+            "method": "POST",
+            "url": {"raw": "{{profileBase}}/api/profiles/{{userId}}/favorites/competitions/{{competitionId}}", "host": ["{{profileBase}}"], "path": ["api", "profiles", "{{userId}}", "favorites", "competitions", "{{competitionId}}"]}
+          }
+        },
+        {
+          "name": "Remove Favorite Competition",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{profileBase}}/api/profiles/{{userId}}/favorites/competitions/{{competitionId}}", "host": ["{{profileBase}}"], "path": ["api", "profiles", "{{userId}}", "favorites", "competitions", "{{competitionId}}"]}
+          }
+        }
+      ]
+    }
+  ]
+}
